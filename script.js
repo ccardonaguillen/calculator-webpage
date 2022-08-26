@@ -3,18 +3,37 @@ let storedOp // Variable to cache operation
 function connectButtons() {
     const buttons = document.querySelectorAll('button');
 
-    buttons.forEach(button => button.addEventListener('click', pressButton))
+    buttons.forEach(button => {
+                 button.addEventListener('click', pressButton);
+                 button.addEventListener('click', displayMaxed);
+                 button.addEventListener('transitionend', removeTransition);
+        }
+    );
 }
 
-function pressButton(e) {
-    // console.log(this)
+function connectKeys() {
+    window.addEventListener('keydown', function(e) {
+        asscButton = document.querySelector(`button[data-key="${e.key}"]`);
+        if (asscButton) {
+            asscButton.click();
+            // asscButton.classList.add("pressed");
+        }
+    })
+}
+
+function pressButton() {
     if (this.classList.contains('number')) {
-        return inputNumber(this.textContent)
+        inputNumber(this.textContent)
     } else if (this.classList.contains('operator')) {
-        return operate(this.id)
+        operate(this.id)
     } else if (this.classList.contains('action')) {
-        return doAction(this.id)
+        doAction(this.id)
     }
+}
+
+function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('pressed');
 }
 
 function clearDisplay() {
@@ -41,6 +60,8 @@ function inputNumber(number) {
             clearDisplay()
     };
 
+    if (input.textContent.length > 24) return;
+
     // Replace calculator dot symbol by decimal point
     if (number.charCodeAt(0) === 8226) {
         number = ".";
@@ -60,10 +81,11 @@ function inputNumber(number) {
 
 function operate(op) {
     const input = document.querySelector('.input');
+    if (input.textContent === "") return;
 
     regex = /(\d+(.\d+)?)/g
     numbers = input.textContent.match(regex)
-    
+
     switch (op) {
         case "plus":
             sum(numbers)
@@ -89,11 +111,10 @@ function sum(num) {
 
     if (num.length === 2) {
         // Allow only for two numbers in the input at once
-        const sumResult = storedOp(num[1]);
+        const sumResult = parseFloat(parseFloat(storedOp(num[1])).toFixed(4));
         result.textContent = sumResult;
         input.textContent = sumResult + " \u002B "; // Plus unicode symbol
         storedOp = (num2) => parseFloat(sumResult) + parseFloat(num2);
-        console.log(storedOp)
     } else if (num.length === 1) {
         // Cache operation and wait for second number
         input.textContent = num[0] + " \u002B ";
@@ -107,7 +128,7 @@ function subtract(num) {
     const result = document.querySelector('.result');
     
     if (num.length === 2) {
-        const subResult = storedOp(num[1]);
+        const subResult = parseFloat(parseFloat(storedOp(num[1])).toFixed(4));
         result.textContent = subResult;
         input.textContent = subResult + " \u2212 "; // Minus unicode symbol
         storedOp = (num2) => parseFloat(subResult) - parseFloat(num2);
@@ -122,7 +143,7 @@ function times(num) {
     const result = document.querySelector('.result');
     
     if (num.length === 2) {
-        const timesResult = storedOp(num[1]);
+        const timesResult = parseFloat(parseFloat(storedOp(num[1])).toFixed(4));
         result.textContent = timesResult;
         input.textContent = timesResult + " \u00D7 "; // Times unicode symbol
         storedOp = (num2) => parseFloat(timesResult) * parseFloat(num2);
@@ -137,7 +158,7 @@ function divide(num) {
     const result = document.querySelector('.result');
     
     if (num.length === 2) {
-        const divResult = storedOp(num[1]);
+        const divResult = parseFloat(parseFloat(storedOp(num[1])).toFixed(4));
         result.textContent = divResult;
         input.textContent = divResult + " \u2215 "; // Division unicode symbol
         storedOp = (num2) => parseFloat(divResult) / parseFloat(num2);
@@ -157,7 +178,7 @@ function equals(num) {
     if (num.length === 2) {
         // Compute cached operation
         input.textContent = input.textContent + " \u003D"; // Equals unicode symbol
-        result.textContent = storedOp(num[1]);
+        result.textContent = parseFloat(parseFloat(storedOp(num[1])).toFixed(4));
     } else if (num.length === 1) {
         // If only one number, result equals this number
         input.textContent = num[0] + " \u003D";
@@ -176,4 +197,14 @@ function doAction(action) {
     }
 }
 
+function displayMaxed() {
+    const result = document.querySelector(".result")
+    const input = document.querySelector(".input")
+
+    if (result.textContent.length > 12) {
+        result.textContent = "MAXOUT"
+    }
+}
+
 connectButtons()
+connectKeys()

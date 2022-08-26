@@ -90,9 +90,11 @@ button {
     font-family: noto sans, sans-serif;
     box-shadow: 1px 1px 2px black;
     cursor: pointer;
+    transition: all .07s ease;
 }
 
-button:active {
+button:active,
+.pressed {
     vertical-align: top;
     padding: 0.3em 0.5em 0.2em;
     box-shadow: 1px 1px 2px inset rgb(58, 68, 97);
