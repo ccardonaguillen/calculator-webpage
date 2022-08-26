@@ -1,3 +1,23 @@
+@font-face {
+    font-family: 'eurostile';
+    src: url('./fonts/eurostile_extended_black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'digital';
+    src: url('./fonts/ticking-timebomb-bb.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'noto sans';
+    src: url('./fonts/NotoSans-Bold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
 body {
     background-color: rgb(43, 81, 81);
 }
@@ -15,6 +35,13 @@ body {
     border-radius: 24px;
 }
 
+.logo {
+    font-size: 16px;
+    font-family: eurostile, sans-serif;
+    font-weight: bold;
+    margin: 16px auto 8px 40px;
+}
+
 .display{
     box-sizing: border-box;
     display: flex;
@@ -23,24 +50,25 @@ body {
     background-color: rgba(72,109,76);
     width: 320px;
     height: 120px;
-    margin-top: 40px;
     margin-bottom: 24px;
     padding: 16px 24px;
     border-radius: 6px;
     box-shadow: 2px 2px 4px inset black;
 }
 
-.input,
-.result {
+.input  {
     /* border: red 5px solid; */
     font-size: 20px;
     font-family: sans-serif;
-    text-align: right;
-    margin: 0px 0px;
+    text-align: left;
+    margin: 0 0;
 }
 
 .result{
-    font-size: 44px;
+    font-family: digital, sans-serif;
+    font-size: 54px;
+    text-align: right;
+    margin: 0 0 -12px;
 }
 
 .button-panel {
@@ -50,17 +78,18 @@ body {
     grid-template-rows: repeat(5, 1fr);
     grid-gap: 8px;
     width: 320px;
-    margin-bottom: 40px;
+    margin-bottom: 36px;
 }
 
 button {
     background-color: rgb(15,18,25);
     border-radius: 12px;
     color: rgb(190, 190, 190);
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
-    font-family: sans-serif;
+    font-family: noto sans, sans-serif;
     box-shadow: 1px 1px 2px black;
+    cursor: pointer;
 }
 
 button:active {
