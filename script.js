@@ -24,17 +24,35 @@ function clearDisplay() {
     storedOp = undefined;
 }
 
+function deleteChar() {
+    document.querySelector('.result').textContent = "";
+    input = document.querySelector('.input');
+
+    input.textContent = input.textContent.slice(0, input.textContent.length - 1);
+}
+
 function inputNumber(number) {
     const input = document.querySelector('.input');
     const result = document.querySelector('.result');
 
     // If there is already a result, clear display first
-    if (result.textContent) {clearDisplay()};
+    if (result.textContent &&
+        input.textContent.includes('\u003D')) {
+            clearDisplay()
+    };
 
     // Replace calculator dot symbol by decimal point
     if (number.charCodeAt(0) === 8226) {
         number = ".";
-        if (input.textContent.includes(".")) return; // Allow only one decimal point
+        // Allow only one decimal point per number
+
+        numbers = input.textContent.match(/(\d+(\.\d+)?)/g)
+        npoints = input.textContent.match(/(\.)/g)
+
+        if (npoints && numbers) {
+            console.log()
+            if (npoints.length === numbers.length) return; 
+        }
     }
 
     input.textContent += number;
@@ -75,6 +93,7 @@ function sum(num) {
         result.textContent = sumResult;
         input.textContent = sumResult + " \u002B "; // Plus unicode symbol
         storedOp = (num2) => parseFloat(sumResult) + parseFloat(num2);
+        console.log(storedOp)
     } else if (num.length === 1) {
         // Cache operation and wait for second number
         input.textContent = num[0] + " \u002B ";
@@ -152,6 +171,7 @@ function doAction(action) {
             clearDisplay()
             break;
         case "del":
+            deleteChar();
             break;
     }
 }
