@@ -67,13 +67,9 @@ function inputNumber(number) {
         number = ".";
         // Allow only one decimal point per number
 
-        numbers = input.textContent.match(/(\d+(\.\d+)?)/g)
-        npoints = input.textContent.match(/(\.)/g)
+        numbers = input.textContent.match(/(\d+\.?(\d+)?)/g)
 
-        if (npoints && numbers) {
-            console.log()
-            if (npoints.length === numbers.length) return; 
-        }
+        if (numbers.at(-1).includes(".")) return;
     }
 
     input.textContent += number;
