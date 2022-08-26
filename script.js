@@ -6,6 +6,7 @@ function connectButtons() {
     buttons.forEach(button => {
                  button.addEventListener('click', pressButton);
                  button.addEventListener('click', displayMaxed);
+                 button.addEventListener('click', displayInf);
                  button.addEventListener('transitionend', removeTransition);
         }
     );
@@ -47,6 +48,11 @@ function deleteChar() {
     document.querySelector('.result').textContent = "";
     input = document.querySelector('.input');
 
+    if (input.textContent.includes("Error")) {
+        clearDisplay();
+        return;
+    }
+
     input.textContent = input.textContent.slice(0, input.textContent.length - 1);
 }
 
@@ -59,6 +65,10 @@ function inputNumber(number) {
         input.textContent.includes('\u003D')) {
             clearDisplay()
     };
+
+    if (input.textContent.includes("Error")) {
+        clearDisplay()
+    }
 
     if (input.textContent.length > 24) return;
 
@@ -77,10 +87,11 @@ function inputNumber(number) {
 
 function operate(op) {
     const input = document.querySelector('.input');
-    if (input.textContent === "") return;
 
     regex = /(\d+(.\d+)?)/g
     numbers = input.textContent.match(regex)
+    
+    if (!numbers) clearDisplay();
 
     switch (op) {
         case "plus":
@@ -194,12 +205,22 @@ function doAction(action) {
 }
 
 function displayMaxed() {
-    const result = document.querySelector(".result")
-    const input = document.querySelector(".input")
+    const result = document.querySelector(".result");
 
     if (result.textContent.length > 12) {
-        result.textContent = "MAXOUT"
+        result.textContent = "MAXOUT";
     }
+}
+
+function displayInf() {
+    const result = document.querySelector(".result");
+    const input = document.querySelector(".input");
+
+    if (result.textContent === 'Infinity') {
+        result.textContent = "DIV-0";
+        input.textContent = "Error: division by zero"
+    }
+
 }
 
 connectButtons()
