@@ -28,18 +28,30 @@ body {
     align-items: center;
     flex-direction: column;
     background-color: rgb(180, 180, 180);
-    margin: 100px auto;
+    margin: 80px auto 0px;
     width: 400px;
     height: 550px;
     border: rgb(103, 103, 103) 4px solid;
     border-radius: 24px;
 }
 
+.header {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 320px;
+    padding: 0px 40px;
+}
+
 .logo {
     font-size: 16px;
     font-family: eurostile, sans-serif;
     font-weight: bold;
-    margin: 16px auto 8px 40px;
+}
+
+.header img {
+    height: 30px;
 }
 
 .display{
@@ -122,4 +134,18 @@ button:active,
 
 .operator {
     font-size: 28px;
+}
+
+.credits {
+    display: flex;
+    justify-content: center;
+    font-family: "Noto Sans";
+    font-size: 14px;
+    margin: 0px auto;
+    color: rgb(200, 200, 200);
+    margin: 0 auto;
+}
+
+.credits a:visited{
+    color: rgb(200, 200, 200);
 }
